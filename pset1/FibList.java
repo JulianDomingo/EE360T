@@ -1,3 +1,4 @@
+
 package pset1;
 
 import java.util.HashSet;
@@ -59,12 +60,21 @@ public class FibList {
 		if (!this.repOk()) {
 			throw new IllegalStateException();
 		}
-		Node temp = this.header;
-		while (temp.next != null) {
-			temp = temp.next;
+		Node operand1 = header;
+		Node operand2 = header.next;
+		Node runner = operand2.next;
+
+		while (runner != null) {
+			operand1 = operand2;
+			operand2 = runner;
+			runner = runner.next;
 		}
-		this.size++;
-		temp.next = new Node();
-		return temp.elem;
+
+		runner = new Node()
+		runner.elem = operand1.elem + operand2.elem;
+
+		size++;
+
+		return runner.elem;
 	}
 }

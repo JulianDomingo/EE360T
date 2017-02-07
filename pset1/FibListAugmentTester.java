@@ -11,11 +11,22 @@ public class FibListAugmentTester {
 		// perform checks on the values for all the declared fields
 		// of list and node objects reachable from l
 		assertTrue(l.header != null);
-		Node currentNode = l.header;
-		for (int node = 0; node < l.size; node++) {
-			assertTrue(currentNode.elem == 0);
-			currentNode = currentNode.next;
+
+		Node operand2 = l.header;
+		Node operand1 = operand2.next;
+		Node runner = operand1.next;
+
+		int size = 3;
+
+		while (runner != null) {
+			assertTrue(operand1.elem + operand2.elem == runner.elem);
+			operand2 = operand1;
+			operand1 = runner;
+			runner = runner.next;
+			size++;
 		}
+
+		assertTrue(l.size == (size - 1));
 	}
 
 	@Test public void test1() {
@@ -29,9 +40,22 @@ public class FibListAugmentTester {
 		// perform checks on the values for all the declared fields
 		// of list and node objects reachable from l
 		assertTrue(l.header != null);
-		for (int node = 0; node < l.size; node++) {
-			assertTrue(currentNode.elem == 0);
-			currentNode = currentNode.next;
+
+		Node operand2 = l.header;
+		Node operand1 = operand2.next;
+		Node runner = operand1.next;
+
+		int size = 3;
+
+		while (runner != null) {
+			assertTrue(operand1.elem + operand2.elem == runner.elem);
+			operand2 = operand1;
+			operand1 = runner;
+			runner = runner.next;
+			size++;
 		}
+
+		assertTrue(l.size == (size - 1));
+
 	}
 }
