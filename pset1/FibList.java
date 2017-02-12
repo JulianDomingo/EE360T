@@ -60,6 +60,7 @@ public class FibList {
 		if (!this.repOk()) {
 			throw new IllegalStateException();
 		}
+
 		Node operand1 = header;
 		Node operand2 = header.next;
 		Node runner = operand2.next;
