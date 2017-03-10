@@ -23,9 +23,9 @@ public class C {
 
     @Override 
     public int hashCode() {
-       // returns an integer consistent with the Java contract for hashCode method
-       // does not return a constant value
-        
+        int hash = 1;
+        hash = hash * 10 + (s == null ? 0 : s.hashCode());
+        return hash;        
     } 
 }
 
