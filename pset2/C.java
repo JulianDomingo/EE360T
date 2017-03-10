@@ -12,19 +12,21 @@ public class C {
     
     @Override
     public boolean equals(Object o) {
-            // returns a boolean consistent with the Java contract for equals method;
-            // // returns true if and only if o is an object of class
-            // // C and has the same value for field s as this.s (w.r.t. String equals)
-            // // your code goes here
-            // }
-            // @Override
-            // public int hashCode() {
-            // // returns an integer consistent with the Java contract for hashCode method;
-            // // does not return a constant value
-            // // your code goes here
-            // }
-            // }
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof A && this.s.equals(((A) o).s)) {
+            return true;
+        }        
+        return false;
     }
+
+    @Override 
+    public int hashCode() {
+       // returns an integer consistent with the Java contract for hashCode method
+       // does not return a constant value
+        
+    } 
 }
 
 public class D extends C {
