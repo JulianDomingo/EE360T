@@ -15,7 +15,7 @@ public class C {
         if (o == null) {
             return false;
         }
-        if (o instanceof A && this.s.equals(((A) o).s)) {
+        if (o instanceof C && this.s.equals(((C) o).s)) {
             return true;
         }        
         return false;
