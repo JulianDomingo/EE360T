@@ -1,6 +1,4 @@
-/*
- * Julian Domingo : jad5348
- */
+/* Julian Domingo : jad5348 */
 
 package pset2;
 public class C {

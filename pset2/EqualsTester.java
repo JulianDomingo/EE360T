@@ -1,3 +1,5 @@
+/* Julian Domingo : jad5348 */
+
 package pset2;
 
 import static.org.junit.Assert.*;
@@ -7,26 +9,8 @@ public class EqualsTester {
     /*
      * P1: For any non-null reference value x, x.equals(null) should return false.
      */
-
     @Test public void t0() {
         assertFalse(new Object().equals(null));
-    }
-
-    /*
-     * P2: Reflexive: For any non-null reference value x, x.equals(x) should return true.
-     */
-    @Test public void t1() {
-        C c = new C("Hello.");
-        assertTrue(c.equals(c));
-    }
-
-    /*
-     * P3: Symmetric: For any non-null reference values x and y, x.equals(y) should return true if and only if y.equals(x) returns true.
-     */
-    @Test public void t2() {
-        D d1 = new D("Salutations.", 10);
-        D d2 = new D("Salutations.", 10);
-        assertTrue(d1.equals(d2) && d2.equals(d1));
     }
 
     /*
@@ -41,5 +25,80 @@ public class EqualsTester {
 
         assertTrue(x.equals(y) && y.equals(z) == x.equals(z));
     }
+
+    @Test public void nullPassC() {
+        assertFalse(new C("null").equals(null));
+    }
+
+    @Test public void nullPassD() {
+        assertFalse(new D("null", 0).equals(null));
+    }
+
+    /* C Tests */
+    @Test public void cTransitiveWithC() {
+        C c1 = new C("1");
+        C c2 = new C("1");
+        C c3 = new C("1");
+        assertTrue((c1.equals(c2) && c2.equals(c3)) == c1.equals(c3));
+    }
+
+    @Test public void cTransitiveWithD() {
+        C c1 = new C("1");
+        C c2 = new C("1");
+        D d1 = new D("1", 1);
+        assertFalse((c1.equals(c2) && c2.equals(d1)) == c1.equals(d1));
+    }
+
+    @Test public void cTransitiveWithObject() {
+        C c1 = new C("1");
+        C c2 = new C("1");
+        Object o1 = new Object();
+        assertFalse((c1.equals(c2) && c2.equals(o1)) == c1.equals(o1));
+    }
+
+    /* D tests */
+    @Test public void dTransitiveWithC() {
+        D d1 = new D("1", 1);
+        D d2 = new D("2", 2);
+        C c1 = new C("1");
+        assertFalse((d1.equals(d2) && d2.equals(c1)) == d1.equals(c1));
+    }
+
+    @Test public void dTransitiveWithD() {
+        D d1 = new D("1", 1);
+        D d2 = new D("1", 1);
+        D d3 = new D("1", 1);
+        assertTrue((d1.equals(d2) && d2.equals(d3)) == d1.equals(d3));
+    }
+
+    @Test public void dTransitiveWithObject() {
+        D d1 = new D("1", 1);
+        D d2 = new D("1", 1);
+        Object o1 = new Object();
+        assertFalse((d1.equals(d2) && d2.equals(o1)) == d1.equals(o1));
+    }
+
+    /* Object tests */
+    @Test public void objectTransitiveWithC() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        C c1 = new C("1");
+        assertFalse((o1.equals(o2) && o2.equals(c1)) == o1.equals(c1));
+    }
+
+    @Test public void objectTransitiveWithD() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        D d1 = new D("1", 1);
+        assertFalse((o1.equals(o2) && o2.equals(d1)) == o1.equals(d1));
+    }
+
+    @Test public void objectTransitiveWithObject() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        assertTrue((o1.equals(o2) && o2.equals(o3)) == o1.equals(o3));
+    }
+
 }
 
