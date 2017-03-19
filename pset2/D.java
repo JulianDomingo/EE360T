@@ -15,7 +15,7 @@ public class D extends C {
         if (o == null) {
             return false;
         }
-        if (o instanceof D &&
+        if (o.getClass() == this.getClass() &&
            (this.s.equals(((D) o).s) &&
            (this.g == ((D) o).g)))
         {

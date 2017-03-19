@@ -6,28 +6,33 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class HashCodeTester {
-
-    /*
-     * P5: If two objects are equal according to the equals(Object)
-     * method, then calling the hashCode method on each of 
-     * the two objects must produce the same integer result.
-     */
-
-    @Test public void cHashCodeTrue() {
+    @Test public void cTrueOneObject() {
         C c1 = new C("1");        
         assertTrue(c1.hashCode() == c1.hashCode());        
     }       
 
-    @Test public void nHashCodeFalse() {
+    @Test public void cTrueTwoObjects() {
+        C c1 = new C("1");
+        C c2 = new C("1");
+        assertTrue(c1.hashCode() == c2.hashCode());
+    }
+
+    @Test public void cHashCodeFalse() {
         C c1 = new C("1");
         C c2 = new C("2");
         assertFalse(c1.hashCode() == c2.hashCode());
     }
 
-    @Test public void dHashCodeTrue() {
+    @Test public void dTrueOneObject() {
         D d1 = new D("1", 1);
         assertTrue(d1.hashCode() == d1.hashCode());
     }
+
+    @Test public void dTrueTwoObjects() {
+        D d1 = new D("1", 1);
+        D d2 = new D("1", 1);
+        assertTrue(d1.hashCode() == d2.hashCode());
+    }        
 
     @Test public void dHashCodeFalse() {
         D d1 = new D("1", 1);
@@ -39,6 +44,23 @@ public class HashCodeTester {
         C c1 = new C("1");
         D d1 = new D("1", 1);
         assertFalse(c1.hashCode() == d1.hashCode());
+    }
+
+    @Test public void doHashCodeFalse() {
+        D d1 = new D("1", 1);
+        Object o1 = new Object();
+        assertFalse(d1.hashCode() == o1.hashCode());
+    }
+
+    @Test public void coHashCodeFalse() {
+        C c1 = new C("1");
+        Object o1 = new Object();
+        assertFalse(c1.hashCode() == o1.hashCode());
+    }
+
+    @Test public void objectHashCodeTrue() { 
+        Object o1 = new Object();
+        assertTrue(o1.hashCode() == o1.hashCode());
     }
 
     @Test public void objectHashCodeFalse() {
