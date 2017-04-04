@@ -49,10 +49,8 @@ public class Graph {
         if (sources == null || targets == null) {
             throw new IllegalArgumentException();
         }
-        if (sources.isEmpty() || 
-            targets.isEmpty() ||
-            nodes.containsAll(targets) ||
-            nodes.containsAll(sources) ||
+        if (isSubsetOfGraphVertexSet(sources) &&
+            isSubsetOfGraphVertexSet(targets) &&
             !hasDirectedPathsFrom(sources, targets))
         {
             return true;
@@ -61,6 +59,15 @@ public class Graph {
         return false; 
     }
 
+    private boolean isSubsetOfGraphVertexSet(Set<Integer> set) {
+        for (int node : set) {
+            if (!nodes.contains(node)) {
+                return false;
+            }
+        }
+        return true;
+    }
+          
     private boolean hasDirectedPathsFrom(Set<Integer> sources, Set<Integer> targets) {
         for (int source : sources) {
             for (int target : targets) {
