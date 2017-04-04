@@ -2,7 +2,7 @@
  * Julian Domingo : jad5348
  */
 
-// package pset4;
+package pset4;
 
 import java.util.*;
 
@@ -26,9 +26,9 @@ public class Graph {
     }
 
     public void addEdge(int from, int to) {
-        addNode(from);
-        addNode(to);
-        
+        if (!nodes.contains(from)) { nodes.add(from); }
+        if (!nodes.contains(to)) { nodes.add(to); }
+
         if (!edges.containsKey(from)) {
             edges.put(from, new ArrayList<Integer>(Arrays.asList(to)));
         }
@@ -36,10 +36,10 @@ public class Graph {
             edges.get(from).add(to);
         }
 
-        initializeOutgoingEdgesFrom(to);        
+        initializeOutgoingEdgeListFrom(to);        
     }
 
-    private void initializeOutgoingEdgesFrom(int node) {
+    private void initializeOutgoingEdgeListFrom(int node) {
         if (!edges.get(node) == null) {
             edges.put(node, new ArrayList<Integer>());
         }

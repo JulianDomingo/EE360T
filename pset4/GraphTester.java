@@ -2,7 +2,7 @@
  * Julian Domingo : jad5348
  */
 
-// package pset4;
+package pset4;
 
 import static org.junit.Assert.*;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class GraphTester {
     @Test public void tae0() {
         Graph g = new Graph();
         g.addEdge(0, 1);
-        assertEquals(g.toString(), "nodes: [0, 1]\nedges: {0=[1]}");
+        assertEquals(g.toString(), "nodes=[0, 1]; edges={0=[1]}");
     }
    
     // My Test Cases:  
@@ -22,28 +22,28 @@ public class GraphTester {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(1, 2);
-        assertEquals(g.toString(), "nodes: [0, 1, 2]\nedges: {0=[1], 1=[2], 2=[]}");
+        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1], 1=[2], 2=[]}");
     }
 
     @Test public void tae2() {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(0, 2); 
-        assertEquals(g.toString(), "nodes: [0, 1, 2]\nedges: {0=[1], 1=[], 2=[]}");
+        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1], 1=[], 2=[]}");
     }
 
     @Test public void tae3() {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(1, 0);
-        assertEquals(g.toString(), "nodes: [0, 1]\nedges: {0=[1], 1=[0]}");
+        assertEquals(g.toString(), "nodes=[0, 1]; edges={0=[1], 1=[0]}");
     }
 
     @Test public void tae4() {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(2, 3);
-        assertEquals(g.toString(), "nodes: [0, 1, 2, 3]\nedges: {0=[1], 1=[], 2=[3], 3=[]}");
+        assertEquals(g.toString(), "nodes=[0, 1, 2, 3]; edges={0=[1], 1=[], 2=[3], 3=[]}");
     }    
             
 /********************************************************************************************************/    
