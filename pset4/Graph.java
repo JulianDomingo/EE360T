@@ -26,23 +26,68 @@ public class Graph {
     }
 
     public void addEdge(int from, int to) {
+        addNode(from);
+        addNode(to);
+        
         if (!edges.containsKey(from)) {
             edges.put(from, new ArrayList<Integer>(Arrays.asList(to)));
         }
         else if (!edges.get(from).contains(to)) {
-            edges.get(from).add(to);;
+            edges.get(from).add(to);
         }
+
+        initializeOutgoingEdgesFrom(to);        
     }
+
+    private void initializeOutgoingEdgesFrom(int node) {
+        if (!edges.get(node) == null) {
+            edges.put(node, new ArrayList<Integer>());
+        }
+    }        
 
     public boolean unreachable(Set<Integer> sources, Set<Integer> targets) {
         if (sources == null || targets == null) {
             throw new IllegalArgumentException();
         }
-    
+        if (sources.isEmpty() || 
+            targets.isEmpty() ||
+            nodes.containsAll(targets) ||
+            nodes.containsAll(sources) ||
+            !hasDirectedPathsFrom(sources, targets))
+        {
+            return true;
+        } 
+
+        return false; 
     }
 
+    private boolean hasDirectedPathsFrom(Set<Integer> sources, Set<Integer> targets) {
+        for (int source : sources) {
+            for (int target : targets) {
+                if (hasDirectedPath(source, target)) {
+                    return true;
+                }
+            }
+        }
 
+        return false;
+    }
 
+    private boolean hasDirectedPath(int source, int target) {
+        if (source == target) { return true; }
 
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(source);
 
+        while (!queue.isEmpty()) {
+            int popped = queue.poll();
+            if (popped == target) { return true; } 
+            
+            for (int adjacent : edges.get(popped)) {
+                queue.add(adjacent);
+            }
+        }    
+        
+        return false;        
+    }
 }
