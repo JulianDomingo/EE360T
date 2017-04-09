@@ -2,7 +2,7 @@
  * Julian Domingo : jad5348
  */
 
-package pset4;
+//package pset4;
 
 import static org.junit.Assert.*;
 import java.util.HashSet;
@@ -14,22 +14,23 @@ public class GraphTester {
     @Test public void tae0() {
         Graph g = new Graph();
         g.addEdge(0, 1);
+        System.out.println(g.toString());
         assertEquals(g.toString(), "nodes=[0, 1]; edges={0=[1]}");
     }
-   
-    // My Test Cases:  
+
+    // My Test Cases:
     @Test public void tae1() {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(1, 2);
-        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1], 1=[2], 2=[]}");
+        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1], 1=[2]}");
     }
 
     @Test public void tae2() {
         Graph g = new Graph();
         g.addEdge(0, 1);
-        g.addEdge(0, 2); 
-        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1], 1=[], 2=[]}");
+        g.addEdge(0, 2);
+        assertEquals(g.toString(), "nodes=[0, 1, 2]; edges={0=[1, 2]}");
     }
 
     @Test public void tae3() {
@@ -43,10 +44,10 @@ public class GraphTester {
         Graph g = new Graph();
         g.addEdge(0, 1);
         g.addEdge(2, 3);
-        assertEquals(g.toString(), "nodes=[0, 1, 2, 3]; edges={0=[1], 1=[], 2=[3], 3=[]}");
-    }    
-            
-/********************************************************************************************************/    
+        assertEquals(g.toString(), "nodes=[0, 1, 2, 3]; edges={0=[1], 2=[3]}");
+    }
+
+    /********************************************************************************************************/
 
     // unreachable() test cases.
     @Test public void tr0() {
@@ -63,7 +64,7 @@ public class GraphTester {
         g.addNode(0);
         Set<Integer> nodes = new HashSet<Integer>();
         nodes.add(1);
-        assertTrue(g.unreachable(nodes, nodes));
+        assertFalse(g.unreachable(nodes, nodes));
     }
 
     @Test public void tr2() {
@@ -94,12 +95,12 @@ public class GraphTester {
         g.addEdge(10, 15);
         g.addEdge(20, 25);
         Set<Integer> source = new HashSet<Integer>();
-        Set<Integer> target = new HashSet<Integer>();            
+        Set<Integer> target = new HashSet<Integer>();
         source.add(0);
-        target.add(25);            
+        target.add(25);
         assertTrue(g.unreachable(source, target));
     }
-           
+
     @Test public void tr5() {
         Graph g = new Graph();
         g.addEdge(0, 5);
@@ -108,9 +109,9 @@ public class GraphTester {
         Set<Integer> target = new HashSet<Integer>();
         source.add(0);
         target.add(5);
-        assertFalse(g.unreachable(source, target)); 
+        assertFalse(g.unreachable(source, target));
     }
-    
+
     @Test public void tr6() {
         Graph g = new Graph();
         g.addEdge(0, 5);
@@ -119,7 +120,7 @@ public class GraphTester {
         Set<Integer> target = new HashSet<Integer>();
         source.add(5);
         target.add(0);
-        assertFalse(g.unreachable(source, target)); 
+        assertFalse(g.unreachable(source, target));
     }
 }
 

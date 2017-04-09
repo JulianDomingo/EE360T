@@ -26,8 +26,8 @@ public class Graph {
     }
 
     public void addEdge(int from, int to) {
-        if (!nodes.contains(from)) { nodes.add(from); }
-        if (!nodes.contains(to)) { nodes.add(to); }
+        addNode(from);
+        addNode(to);
 
         if (!edges.containsKey(from)) {
             edges.put(from, new ArrayList<Integer>(Arrays.asList(to)));
@@ -35,28 +35,20 @@ public class Graph {
         else if (!edges.get(from).contains(to)) {
             edges.get(from).add(to);
         }
-
-        initializeOutgoingEdgeListFrom(to);        
     }
-
-    private void initializeOutgoingEdgeListFrom(int node) {
-        if (!edges.get(node) == null) {
-            edges.put(node, new ArrayList<Integer>());
-        }
-    }        
 
     public boolean unreachable(Set<Integer> sources, Set<Integer> targets) {
         if (sources == null || targets == null) {
             throw new IllegalArgumentException();
         }
         if (isSubsetOfGraphVertexSet(sources) &&
-            isSubsetOfGraphVertexSet(targets) &&
-            !hasDirectedPathsFrom(sources, targets))
+                isSubsetOfGraphVertexSet(targets) &&
+                !hasDirectedPathsFrom(sources, targets))
         {
             return true;
-        } 
+        }
 
-        return false; 
+        return false;
     }
 
     private boolean isSubsetOfGraphVertexSet(Set<Integer> set) {
@@ -67,7 +59,7 @@ public class Graph {
         }
         return true;
     }
-          
+
     private boolean hasDirectedPathsFrom(Set<Integer> sources, Set<Integer> targets) {
         for (int source : sources) {
             for (int target : targets) {
@@ -88,13 +80,15 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             int popped = queue.poll();
-            if (popped == target) { return true; } 
-            
-            for (int adjacent : edges.get(popped)) {
-                queue.add(adjacent);
+            if (popped == target) { return true; }
+
+            if (edges.containsKey(popped)) {
+                for (int adjacent : edges.get(popped)) {
+                    queue.add(adjacent);
+                }
             }
-        }    
-        
-        return false;        
+        }
+
+        return false;
     }
 }
