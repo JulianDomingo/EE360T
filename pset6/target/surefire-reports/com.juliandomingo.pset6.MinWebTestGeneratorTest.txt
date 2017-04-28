@@ -1,4 +1,13 @@
 -------------------------------------------------------------------------------
 Test set: com.juliandomingo.pset6.MinWebTestGeneratorTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in com.juliandomingo.pset6.MinWebTestGeneratorTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.021 sec <<< FAILURE! - in com.juliandomingo.pset6.MinWebTestGeneratorTest
+t0(com.juliandomingo.pset6.MinWebTestGeneratorTest)  Time elapsed: 0.006 sec  <<< ERROR!
+java.lang.IllegalArgumentException: Invalid combination found: [3, 3, 3, 3]
+	at com.juliandomingo.pset6.MinWebTestGenerator.alreadyGenerated(MinWebTestGenerator.java:222)
+	at com.juliandomingo.pset6.MinWebTestGenerator.addTests(MinWebTestGenerator.java:73)
+	at com.juliandomingo.pset6.MinWebTestGenerator.testsuite(MinWebTestGenerator.java:55)
+	at com.juliandomingo.pset6.MinWebTestGenerator.createTestSuite(MinWebTestGenerator.java:33)
+	at com.juliandomingo.pset6.MinWebTestGenerator.main(MinWebTestGenerator.java:23)
+	at com.juliandomingo.pset6.MinWebTestGeneratorTest.t0(MinWebTestGeneratorTest.java:10)
+
