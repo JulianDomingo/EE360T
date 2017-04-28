@@ -16,7 +16,7 @@ public class MinWebTestGenerator {
     public static final int ZERO = 0;
     public static final String NOT_AN_INTEGER = "Not an integer.";
 
-    Random random = new Random(0);
+    Random random = new Random(12345678);
     ArrayList<Combination> combinations = new ArrayList<Combination>();; 
 
     public static void main(String[] a) {
@@ -68,7 +68,6 @@ public class MinWebTestGenerator {
         for (int test = 0; test < NUMBER_OF_TESTS; test += 1) {
             Object[] inputs = new Object[INPUT_TYPES];
             randomizeInput(inputs);
-            System.out.println("First randomization: " + Arrays.toString(inputs));
 
             while (alreadyGenerated(inputs)) {
                 randomizeInput(inputs);            
@@ -119,7 +118,7 @@ public class MinWebTestGenerator {
         boolean coinFlip = (Math.random() < 0.5);
 
         for (int index = 0; index < input.length - 1; index += 1) {
-            input[index] = (coinFlip) ? random.nextInt((65536) - 32768) : NOT_AN_INTEGER;
+            input[index] = (coinFlip) ? random.nextInt(100 + 1 + 100) - 100 : NOT_AN_INTEGER;
         }
     
         input[input.length - 1] = coinFlip; 
@@ -132,7 +131,9 @@ public class MinWebTestGenerator {
         sb.append(tab(1) + "@Before\n");
         sb.append(tab(1) + "public void setUp() {\n");
         sb.append(tab(2) + "driver = new FirefoxDriver();\n");
-        sb.append(tab(2) + "driver.get(\"~/Documents/School/EE360T/pset6/src/main/java/com/juliandomingo/pset6/min.html\");\n");
+
+        String generatorPath = System.getProperty("user.dir") + "MinWebTestGenerator.java"; 
+        sb.append(tab(2) + "driver.get(\"" + generatorPath + "\");\n"); 
         sb.append(tab(1) + "}\n\n");
         return sb.toString();
     }
@@ -182,10 +183,14 @@ public class MinWebTestGenerator {
                 return 2;
             }            
         }            
-        else {
+        else if (value instanceof String) {
             // String.
             return 3;
         } 
+        else {
+            // Boolean
+            return ((Boolean) value) ? 1 : 0;
+        }
     } 
 
     void mapCombination(Object[] input) {
@@ -214,14 +219,11 @@ public class MinWebTestGenerator {
     boolean alreadyGenerated(Object[] input) {
         for (Combination possibility : combinations) {
             if (Arrays.equals(input, possibility.combination)) {            
-                System.out.println("Combination: " + Arrays.toString(possibility.combination));
-                System.out.println("Input: " + Arrays.toString(input) + "\n");
                 return possibility.generated;
             }
         }   
         throw new IllegalArgumentException("Invalid combination found: " + Arrays.toString(input));
     }
-
 
     public class Combination {
         boolean generated;
