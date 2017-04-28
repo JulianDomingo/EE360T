@@ -4,14 +4,24 @@
 package com.juliandomingo.pset6;
 
 import java.lang.StringBuilder;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.Map;
+import java.util.ArrayList;
 
 public class MinWebTestGenerator {
 	public static final int NUMBER_OF_TESTS = 128;
+    public static final int INPUT_TYPES = 4;
+    public static final int ZERO = 0;
+    public static final String NOT_AN_INTEGER = "Not an integer.";
+
+    ArrayList<Combination> combinations = new ArrayList<Combination>();; 
 
     public static void main(String[] a) {
-		String suite = new MinWebTestGenerator().createTestSuite();
+        String suite = new MinWebTestGenerator().createTestSuite();
 		System.out.println(suite);
-	}
+    }
 	
 	String createTestSuite() {
 		StringBuilder sb = new StringBuilder();
@@ -49,14 +59,50 @@ public class MinWebTestGenerator {
 
     String addTests() {
         StringBuilder sb = new StringBuilder();
+        
+        createCombinations(new Integer[INPUT_TYPES],
+                           new Integer[]{INPUT_TYPES - 1, INPUT_TYPES - 1, INPUT_TYPES - 1, 1},
+                           0);                
 
-        for (int test = 0; test < NUMBER_OF_TESTS; test += 1) {
-            sb.append(fourSpaces() + "@Test\n");
-            sb.append(fourSpaces() + "public void t" + Integer.toString(test) + "() {\n");
-            // TODO: Add test implementations."
-            // sb.append(fourSpaces() + "\t");
+        Random random = new Random(0);
+        
+        while (!allCombinationsGenerated()) {
+            sb.append(tab(1) + "@Test\n");
+            sb.append(tab(1) + "public void t" + Integer.toString(test) + "() {\n");
+            
+            Object[] inputs = new Object[INPUT_TYPES];
+            randomizeInput(inputs);
+            
+            sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
+            sb.append(tab(2) + "element.sendKeys(\" 
+                             + Integer.toString(inputs[0])
+                             + "\");\n");
+            
+            sb.append(tab(2) + "element = driver.findElement(By.id(\"y\"));\n");
+            sb.append(tab(2) + "element.sendKeys(\"
+                             + Integer.toString(inputs[1])
+                             + "\");\n");
 
-            sb.append(fourSpaces() + "}\n\n");
+            
+            sb.append(tab(2) + "element = driver.findElement(By.id(\"z\"));\n");
+            sb.append(tab(2) + "element.sendKeys(\"
+                             + Integer.toString(inputs[2])
+                             + "\");\n");
+                
+           
+            sb.append(tab(2) + "WebElement result = driver.findElement(By.id(\"result\"));\n");
+
+            sb.append(tab(2) + "String output = result.getText();\n");
+
+            sb.append(tab(2) + "assertEquals(\"min("
+                             + Integer.toString(inputs[0]) + ", "
+                             + Integer.toString(inputs[1]) + ", "
+                             + Integer.toString(inputs[2]) + ", "
+                             + ") = " 
+                             + Integer.toString(Math.min(inputs[0], inputs[1], inputs[2]))
+                             + "\", output);\n");
+
+            sb.append(tab(1) + "}\n\n");
         }
     
         return sb.toString();            
@@ -64,24 +110,82 @@ public class MinWebTestGenerator {
 
     String openBrowser() {
         StringBuilder sb = new StringBuilder();
-        sb.append(fourSpaces() + "WebDriver driver;\n\n");
-        sb.append(fourSpaces() + "@Before\n");
-        sb.append(fourSpaces() + "public void setUp() {\n");
-        sb.append(fourSpaces() + "\tdriver = new FirefoxDriver();\n");
-        sb.append(fourSpaces() + "}\n\n");
+        sb.append(tab(1) + "WebDriver driver;\n\n");
+        sb.append(tab(1) + "@Before\n");
+        sb.append(tab(1) + "public void setUp() {\n");
+        sb.append(tab(2) + "driver = new FirefoxDriver();\n");
+        sb.append(tab(2) + "driver.get(\"~/Documents/School/EE360T/pset6/src/main/java/com/juliandomingo/pset6/min.html\");\n");
+        sb.append(tab(1) + "}\n\n");
         return sb.toString();
     }
 
     String closeBrowser() {
         StringBuilder sb = new StringBuilder();
-        sb.append(fourSpaces() + "@After\n");
-        sb.append(fourSpaces() + "public void tearDown() {\n");
-        sb.append(fourSpaces() + "\tdriver.quit();\n");
-        sb.append(fourSpaces() + "}\n");
+        sb.append(tab(1) + "@After\n");
+        sb.append(tab(1) + "public void tearDown() {\n");
+        sb.append(tab(2) + "driver.quit();\n");
+        sb.append(tab(1) + "}\n");
         return sb.toString();
     }
 
-    String fourSpaces() {
-        return "    ";
+    String tab(int tabCount) {
+        StringBuilder sb = new StringBuilder();
+        for (int tab = 0; tab < tabCount; tab += 1) {
+            sb.append("    ");
+        }
+
+        return sb.toString();        
+    }
+
+    void createCombinations(Integer[] valueIDs, Integer[] rangesForEachIndex, Integer currentIndex) {
+        if (currentIndex == valueIDs.length) {
+            Integer[] combination = Arrays.copyOf(valueIDs, valueIDs.length);
+            combinations.add(new Combination(false, combination));
+            return;
+        }
+       
+        for (int index = 0; index <= rangesForEachIndex[currentIndex]; index += 1) {
+            valueIDs[currentIndex] = index;
+            createCombinations(valueIDs, rangesForEachIndex, currentIndex + 1);
+        } 
+    }
+    
+    int getIDMapping(Object value) {
+        if (value instanceof Integer) {
+            int key = (Integer) value;
+            
+            if (key == 0) {
+                return 0;
+            }
+            else if (key > 0) {
+                return 1;
+            }
+            else {
+                return 2;
+            }            
+        }            
+        else {
+            // String.
+            return 3;
+        } 
+    } 
+
+    boolean allCombinationsGenerated() {
+        for (Combination combination : combinations) {
+            if (!combination.generated) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public class Combination {
+        boolean generated;
+        Integer[] combination;
+
+        public Combination(boolean generated, Integer[] combination) {
+            this.generated = generated;
+            this.combination = combination;
+        }
     }
 }
