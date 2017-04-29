@@ -114,7 +114,7 @@ public class MinWebTestGenerator {
                 sb.append(tab(2) + "assertEquals(\"min("
                                  + stringRepresentation(x) + ", "
                                  + stringRepresentation(y) + ", "
-                                 + stringRepresentation(z) + ", " + ") = " 
+                                 + stringRepresentation(z) + ") = " 
                                  + result   
                                  + "\", output);\n");
             }
