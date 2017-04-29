@@ -5,9 +5,7 @@ package com.juliandomingo.pset6;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Random;
-import java.util.Map;
 import java.util.ArrayList;
 
 public class MinWebTestGenerator {
@@ -17,7 +15,7 @@ public class MinWebTestGenerator {
     public static final String NOT_AN_INTEGER = "Not an integer.";
 
     Random random = new Random(12345678);
-    ArrayList<Combination> combinations = new ArrayList<Combination>();; 
+    ArrayList<Combination> combinations = new ArrayList<Combination>();
 
     public static void main(String[] a) {
         String suite = new MinWebTestGenerator().createTestSuite();
@@ -61,70 +59,72 @@ public class MinWebTestGenerator {
     String addTests() {
         StringBuilder sb = new StringBuilder();
         
-        createCombinations(new Integer[INPUT_TYPES],
+        createCombinations(new Object[INPUT_TYPES],
                            new Integer[]{INPUT_TYPES - 1, INPUT_TYPES - 1, INPUT_TYPES - 1, 1},
                            0);                
 
-        for (int test = 0; test < NUMBER_OF_TESTS; test += 1) {
-            Object[] inputs = new Object[INPUT_TYPES];
-            randomizeInput(inputs);
-
-            while (alreadyGenerated(inputs)) {
-                randomizeInput(inputs);            
-            }    
-
-            System.out.println("Combination: " + Arrays.toString(inputs));
-            recordCombination(inputs); 
+        for (int test = 0; test < NUMBER_OF_TESTS; test += 1) { 
+            Combination possibility = combinations.get(test); 
             
+            generateInputValues(possibility);
+            
+            Object x = possibility.combination[0];
+            Object y = possibility.combination[1];
+            Object z = possibility.combination[2];            
+
             sb.append(tab(1) + "@Test\n");
             sb.append(tab(1) + "public void t" + Integer.toString(test) + "() {\n");
             
-            
             sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
             sb.append(tab(2) + "element.sendKeys(\"" 
-                             + Integer.toString((Integer) inputs[0])
+                             + stringRepresentation(x)
                              + "\");\n");
             
             sb.append(tab(2) + "element = driver.findElement(By.id(\"y\"));\n");
             sb.append(tab(2) + "element.sendKeys(\""
-                             + Integer.toString((Integer) inputs[1])
+                             + stringRepresentation(y)
                              + "\");\n");
 
             sb.append(tab(2) + "element = driver.findElement(By.id(\"z\"));\n");
             sb.append(tab(2) + "element.sendKeys(\""
-                             + Integer.toString((Integer) inputs[2])
+                             + stringRepresentation(z)
                              + "\");\n");
-                
            
             sb.append(tab(2) + "WebElement result = driver.findElement(By.id(\"result\"));\n");
 
+            if ((Integer) possibility.combination[3] == 1) {
+                sb.append(tab(2) + "element = driver.findElement(By.id(\"computeButton\"));\n");
+                sb.append(tab(2) + "element.click();\n");
+            }
+
             sb.append(tab(2) + "String output = result.getText();\n");
 
-            sb.append(tab(2) + "assertEquals(\"min("
-                             + Integer.toString((Integer) inputs[0]) + ", "
-                             + Integer.toString((Integer) inputs[1]) + ", "
-                             + Integer.toString((Integer) inputs[2]) + ", "
-                             + ") = " 
-                             + Integer.toString(Math.min(Math.min((Integer) inputs[0], (Integer) inputs[1]), (Integer) inputs[2]))
-                             + "\", output);\n");
+            if ((Integer) possibility.combination[3] == 1) {
+                boolean illegalInput = x instanceof String || y instanceof String || z instanceof String;
+                String result = "";
+
+                if (illegalInput) {
+                    result = "Please enter integer values only!";
+                }
+                else {
+                    int minimum = Math.min(Math.min((Integer) x, (Integer) y), (Integer) z);
+                    result = Integer.toString(minimum);
+                }
+
+                sb.append(tab(2) + "assertEquals(\"min("
+                                 + stringRepresentation(x) + ", "
+                                 + stringRepresentation(y) + ", "
+                                 + stringRepresentation(z) + ", " + ") = " 
+                                 + result   
+                                 + "\", output);\n");
+            }
 
             sb.append(tab(1) + "}\n\n");
         } 
         
         return sb.toString();            
     }
-
-    void randomizeInput(Object[] input) {
-        boolean coinFlip = (Math.random() < 0.5);
-
-        for (int index = 0; index < input.length - 1; index += 1) {
-            input[index] = (coinFlip) ? random.nextInt(100 + 1 + 100) - 100 : NOT_AN_INTEGER;
-        }
     
-        input[input.length - 1] = coinFlip; 
-        mapCombination(input);
-    }
-
     String openBrowser() {
         StringBuilder sb = new StringBuilder();
         sb.append(tab(1) + "WebDriver driver;\n\n");
@@ -156,80 +156,52 @@ public class MinWebTestGenerator {
         return sb.toString();        
     }
 
-    void createCombinations(Integer[] valueIDs, Integer[] rangesForEachIndex, Integer currentIndex) {
+    void createCombinations(Object[] valueIDs, Integer[] rangesForEachIndex, Integer currentIndex) {
         if (currentIndex == valueIDs.length) {
-            Integer[] combination = Arrays.copyOf(valueIDs, valueIDs.length);
+            Object[] combination = Arrays.copyOf(valueIDs, valueIDs.length);
             combinations.add(new Combination(false, combination));
             return;
         }
        
         for (int index = 0; index <= rangesForEachIndex[currentIndex]; index += 1) {
-            valueIDs[currentIndex] = index;
+            valueIDs[currentIndex] = (Object) index;
             createCombinations(valueIDs, rangesForEachIndex, currentIndex + 1);
         } 
     }
+   
+    void generateInputValues(Combination possibility) {
+        for (int value = 0; value < possibility.combination.length - 1; value += 1) {
+            possibility.combination[value] = getValueMapping((Integer) possibility.combination[value]);
+        }
+    }
     
-    int getIDMapping(Object value) {
+    Object getValueMapping(int ID) {
+        switch (ID) {
+            case 1:
+                return Integer.valueOf(random.nextInt(Integer.MAX_VALUE - 1 + 1) + 1);
+            case 2:
+                return Integer.valueOf(-1 * (random.nextInt(Integer.MAX_VALUE - 1 + 1) + 1));
+            case 3:
+                return "String";                    
+            default:
+                return Integer.valueOf(0);
+        }
+    }
+
+    String stringRepresentation(Object value) {
         if (value instanceof Integer) {
-            int key = (Integer) value;
-            
-            if (key == 0) {
-                return 0;
-            }
-            else if (key > 0) {
-                return 1;
-            }
-            else {
-                return 2;
-            }            
-        }            
-        else if (value instanceof String) {
-            // String.
-            return 3;
-        } 
+            return Integer.toString((Integer) value);
+        }
         else {
-            // Boolean
-            return ((Boolean) value) ? 1 : 0;
-        }
-    } 
-
-    void mapCombination(Object[] input) {
-        for (int index = 0; index < input.length; index += 1) {
-            input[index] = (Integer) getIDMapping(input[index]);
+            return (String) value;
         }
     }
-
-    boolean allCombinationsGenerated() {
-        for (Combination combination : combinations) {
-            if (!combination.generated) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    void recordCombination(Object[] input) {
-        for (Combination possibility : combinations) {
-            if (Arrays.equals(input, possibility.combination)) {
-                possibility.generated = true;
-            }
-        }
-    }
-
-    boolean alreadyGenerated(Object[] input) {
-        for (Combination possibility : combinations) {
-            if (Arrays.equals(input, possibility.combination)) {            
-                return possibility.generated;
-            }
-        }   
-        throw new IllegalArgumentException("Invalid combination found: " + Arrays.toString(input));
-    }
-
+    
     public class Combination {
         boolean generated;
-        Integer[] combination;
+        Object[] combination;
 
-        public Combination(boolean generated, Integer[] combination) {
+        public Combination(boolean generated, Object[] combination) {
             this.generated = generated;
             this.combination = combination;
         }
