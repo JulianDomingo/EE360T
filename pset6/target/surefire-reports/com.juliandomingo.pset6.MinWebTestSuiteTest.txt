@@ -1,0 +1,24 @@
+-------------------------------------------------------------------------------
+Test set: com.juliandomingo.pset6.MinWebTestSuiteTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.789 sec <<< FAILURE! - in com.juliandomingo.pset6.MinWebTestSuiteTest
+t0(com.juliandomingo.pset6.MinWebTestSuiteTest)  Time elapsed: 4.789 sec  <<< ERROR!
+org.openqa.selenium.InvalidArgumentException: Malformed URL: /home/julian/Documents/School/EE360T/pset6/src/main/java/com/juliandomingo/pset6/min.html is not a valid URL.
+Build info: version: '3.4.0', revision: 'unknown', time: 'unknown'
+System info: host: 'julian-Z270X-Gaming-9', ip: '127.0.1.1', os.name: 'Linux', os.arch: 'amd64', os.version: '4.8.0-49-generic', java.version: '1.8.0_121'
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Capabilities [{moz:profile=/tmp/rust_mozprofile.ox63Gth0rTcz, rotatable=false, timeouts={implicit=0.0, pageLoad=300000.0, script=30000.0}, pageLoadStrategy=normal, platform=ANY, specificationLevel=0.0, moz:accessibilityChecks=false, acceptInsecureCerts=false, browserVersion=53.0, platformVersion=4.8.0-49-generic, moz:processID=15018.0, browserName=firefox, javascriptEnabled=true, platformName=linux}]
+Session ID: 16df9bc7-0e73-47bc-ac64-d1593e50b81e
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:150)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:115)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:45)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:164)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:82)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:637)
+	at org.openqa.selenium.remote.RemoteWebDriver.get(RemoteWebDriver.java:364)
+	at com.juliandomingo.pset6.MinWebTestSuiteTest.setUp(MinWebTestSuiteTest.java:20)
+

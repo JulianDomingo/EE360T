@@ -14,6 +14,7 @@ public class MinWebTestGenerator {
     public static final int ZERO = 0;
     public static final String NOT_AN_INTEGER = "Not an integer.";
 
+    public static String currentWorkingDirectory = System.getProperty("user.dir"); 
     Random random = new Random(12345678);
     ArrayList<Combination> combinations = new ArrayList<Combination>();
 
@@ -39,6 +40,7 @@ public class MinWebTestGenerator {
 	String imports() {
 	return "import static org.junit.Assert.*;\n\n"
     + "import org.junit.Before;\n"
+    + "import org.junit.After;\n"
     + "import org.junit.Test;\n\n"
 	+ "import org.openqa.selenium.By;\n"
 	+ "import org.openqa.selenium.WebDriver;\n"
@@ -130,9 +132,11 @@ public class MinWebTestGenerator {
         sb.append(tab(1) + "WebDriver driver;\n\n");
         sb.append(tab(1) + "@Before\n");
         sb.append(tab(1) + "public void setUp() {\n");
+        // sb.append(tab(2) + "System.setProperty(\"webdriver.gecko.driver\", \""
+        //                  + currentWorkingDirectory + "/geckodriver.exe\");\n");
         sb.append(tab(2) + "driver = new FirefoxDriver();\n");
 
-        String generatorPath = System.getProperty("user.dir") + "MinWebTestGenerator.java"; 
+        String generatorPath = currentWorkingDirectory + "/src/main/java/com/juliandomingo/pset6/min.html"; 
         sb.append(tab(2) + "driver.get(\"" + generatorPath + "\");\n"); 
         sb.append(tab(1) + "}\n\n");
         return sb.toString();
@@ -143,6 +147,7 @@ public class MinWebTestGenerator {
         sb.append(tab(1) + "@After\n");
         sb.append(tab(1) + "public void tearDown() {\n");
         sb.append(tab(2) + "driver.quit();\n");
+        sb.append(tab(2) + "driver = null;\n");
         sb.append(tab(1) + "}\n");
         return sb.toString();
     }
