@@ -1,6 +1,8 @@
 /**
  * Julian Domingo : jad5348
  */
+
+// TODO: Change package before submitting.
 package com.juliandomingo.pset6;
 
 import java.lang.StringBuilder;
@@ -9,7 +11,7 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class MinWebTestGenerator {
-	public static final int NUMBER_OF_TESTS = 128;
+    public static final int NUMBER_OF_TESTS = 128;
     public static final int INPUT_TYPES = 4;
     public static final int ZERO = 0;
     public static final String NOT_AN_INTEGER = "Not an integer.";
@@ -20,43 +22,45 @@ public class MinWebTestGenerator {
 
     public static void main(String[] a) {
         String suite = new MinWebTestGenerator().createTestSuite();
-		System.out.println(suite);
+        System.out.println(suite);
     }
 	
-	String createTestSuite() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(packageDecl());
-		sb.append("\n");
-		sb.append(imports());
-		sb.append("\n");
-		sb.append(testsuite());
+    String createTestSuite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(packageDecl());
+        sb.append("\n");
+        sb.append(imports());
+        sb.append("\n");
+        sb.append(testsuite());
+        
         return sb.toString();
-	}
-
-	String packageDecl() {
-	return "package pset6;\n";
-	}
-
-	String imports() {
-	return "import static org.junit.Assert.*;\n\n"
-    + "import org.junit.Before;\n"
-    + "import org.junit.After;\n"
-    + "import org.junit.Test;\n\n"
-	+ "import org.openqa.selenium.By;\n"
-	+ "import org.openqa.selenium.WebDriver;\n"
-	+ "import org.openqa.selenium.WebElement;\n"
-	+ "import org.openqa.selenium.firefox.FirefoxDriver;\n";
     }
 
-	String testsuite() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("public class MinWebTestSuite {\n");
-        sb.append(openBrowser());
-        sb.append(addTests());
-        sb.append(closeBrowser()); 
-        sb.append("}\n");
-		return sb.toString();
-	}
+    String packageDecl() {
+        return "package pset6;\n";
+    }
+
+    String imports() {
+        return "import java.io.IOException;\n" 
+        + "import static org.junit.Assert.*;\n\n"
+        + "import org.junit.BeforeClass;\n"
+        + "import org.junit.AfterClass;\n"
+        + "import org.junit.Test;\n\n"
+        + "import org.openqa.selenium.By;\n"
+        + "import org.openqa.selenium.WebDriver;\n"
+        + "import org.openqa.selenium.WebElement;\n"
+        + "import org.openqa.selenium.firefox.FirefoxDriver;\n";
+    }
+
+	  String testsuite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("public class MinWebTestSuite {\n");
+            sb.append(openBrowser());
+            sb.append(addTests());
+            sb.append(closeBrowser()); 
+            sb.append("}\n");
+        return sb.toString();
+    }
 
     String addTests() {
         StringBuilder sb = new StringBuilder();
@@ -76,6 +80,9 @@ public class MinWebTestGenerator {
 
             sb.append(tab(1) + "@Test\n");
             sb.append(tab(1) + "public void t" + Integer.toString(test) + "() {\n");
+            
+            String minPath = "file://" + currentWorkingDirectory + "/min.html"; 
+            sb.append(tab(2) + "driver.get(\"" + minPath + "\");\n"); 
             
             sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
             sb.append(tab(2) + "element.sendKeys(\"" 
@@ -127,31 +134,37 @@ public class MinWebTestGenerator {
         return sb.toString();            
     }
     
+    /**
+     * Opens the web browser before all test cases are executed.
+     */
     String openBrowser() {
         StringBuilder sb = new StringBuilder();
-        sb.append(tab(1) + "WebDriver driver;\n\n");
-        sb.append(tab(1) + "@Before\n");
-        sb.append(tab(1) + "public void setUp() {\n");
-        // sb.append(tab(2) + "System.setProperty(\"webdriver.gecko.driver\", \""
-        //                  + currentWorkingDirectory + "/geckodriver.exe\");\n");
+        sb.append(tab(1) + "static WebDriver driver;\n\n");
+        sb.append(tab(1) + "@BeforeClass\n");
+        sb.append(tab(1) + "public static void setUp() {\n");
         sb.append(tab(2) + "driver = new FirefoxDriver();\n");
-
-        String generatorPath = currentWorkingDirectory + "/src/main/java/com/juliandomingo/pset6/min.html"; 
-        sb.append(tab(2) + "driver.get(\"" + generatorPath + "\");\n"); 
+         
         sb.append(tab(1) + "}\n\n");
         return sb.toString();
     }
 
+    /**
+     * Closes the web browser after all test cases are executed.
+     */ 
     String closeBrowser() {
         StringBuilder sb = new StringBuilder();
-        sb.append(tab(1) + "@After\n");
-        sb.append(tab(1) + "public void tearDown() {\n");
+        sb.append(tab(1) + "@AfterClass\n");
+        sb.append(tab(1) + "public static void tearDown() throws IOException {\n");
         sb.append(tab(2) + "driver.quit();\n");
         sb.append(tab(2) + "driver = null;\n");
         sb.append(tab(1) + "}\n");
         return sb.toString();
     }
 
+    /**
+     * Returns a 4-space tab.
+     * @param tabCount : The number of 4-space tabs to return.
+     */ 
     String tab(int tabCount) {
         StringBuilder sb = new StringBuilder();
         for (int tab = 0; tab < tabCount; tab += 1) {
@@ -161,6 +174,15 @@ public class MinWebTestGenerator {
         return sb.toString();        
     }
 
+    /**
+     * Creates all combinations for combinatorial coverage, but using
+     * representational Integer values (range(0, 4)).
+     * @param valueIDs : The array holding the combination.
+     * @param rangesForEachIndex : The array holding the capacity of possible
+     * input values for each input ([2, 3] := first input has 2 possible input
+     * types, second input has 3 possible input types).
+     * @param currentIndex : A pointer to the index of valueIDs.
+     */
     void createCombinations(Object[] valueIDs, Integer[] rangesForEachIndex, Integer currentIndex) {
         if (currentIndex == valueIDs.length) {
             Object[] combination = Arrays.copyOf(valueIDs, valueIDs.length);
@@ -173,13 +195,28 @@ public class MinWebTestGenerator {
             createCombinations(valueIDs, rangesForEachIndex, currentIndex + 1);
         } 
     }
-   
+  
+    /**
+     * Converts the combination possibility from its ID representation to the
+     * actual test case inputs.
+     * @param possibility: The Combination object containing the
+     * representational combination possibility array.
+     */ 
     void generateInputValues(Combination possibility) {
         for (int value = 0; value < possibility.combination.length - 1; value += 1) {
             possibility.combination[value] = getValueMapping((Integer) possibility.combination[value]);
         }
     }
-    
+   
+    /**
+     * Generates the appropiate value from the ID.
+     * 1 : Any integer greater than 0.
+     * 2 : Any integer less than 0.
+     * 3 : The string literal "String."
+     * 0 (Default) : The value 0.
+     * @param ID : The integer value representing one of this method's return
+     * values.
+     */ 
     Object getValueMapping(int ID) {
         switch (ID) {
             case 1:
@@ -193,13 +230,19 @@ public class MinWebTestGenerator {
         }
     }
 
+    /**
+     * Returns the string representation of the "value" object.
+     * @param value : The object to return a string representation of. "value"
+     * must either be an Integer or String.
+     */ 
     String stringRepresentation(Object value) {
         if (value instanceof Integer) {
             return Integer.toString((Integer) value);
         }
-        else {
+        else if (value instanceof String) {
             return (String) value;
         }
+        throw new IllegalArgumentException("Invalid reference type.");
     }
     
     public class Combination {
