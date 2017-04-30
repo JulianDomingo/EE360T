@@ -114,18 +114,21 @@ public class MinWebTestGenerator {
 
                 if (illegalInput) {
                     result = "Please enter integer values only!";
+
+                    sb.append(tab(2) + "assertEquals(\"" + result + "\", output);\n");
                 }
                 else {
                     int minimum = Math.min(Math.min((Integer) x, (Integer) y), (Integer) z);
                     result = Integer.toString(minimum);
+                
+                    sb.append(tab(2) + "assertEquals(\"min("
+                                     + stringRepresentation(x) + ", "
+                                     + stringRepresentation(y) + ", "
+                                     + stringRepresentation(z) + ") = " 
+                                     + result   
+                                     + "\", output);\n");
                 }
 
-                sb.append(tab(2) + "assertEquals(\"min("
-                                 + stringRepresentation(x) + ", "
-                                 + stringRepresentation(y) + ", "
-                                 + stringRepresentation(z) + ") = " 
-                                 + result   
-                                 + "\", output);\n");
             }
 
             sb.append(tab(1) + "}\n\n");

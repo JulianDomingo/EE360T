@@ -133,7 +133,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, 0, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -249,7 +249,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, 745988271, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -365,7 +365,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, -1499881321, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -394,7 +394,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, String, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -423,7 +423,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, String, 388261) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -452,7 +452,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, String, -1383082846) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -481,7 +481,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(0, String, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -597,7 +597,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(253887025, 0, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -713,7 +713,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(2097893285, 1076761213, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -829,7 +829,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(625998105, -1860110124, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -858,7 +858,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(362774845, String, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -887,7 +887,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(2078249550, String, 214333586) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -916,7 +916,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(1324282355, String, -415114149) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -945,7 +945,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(353475929, String, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1061,7 +1061,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-821787629, 0, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1177,7 +1177,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-205985576, 1327546054, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1293,7 +1293,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-1339660666, -126943385, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1322,7 +1322,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-266865975, String, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1351,7 +1351,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-116045793, String, 1752921744) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1380,7 +1380,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-2131372839, String, -737515979) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1409,7 +1409,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(-2090296217, String, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1438,7 +1438,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 0, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1467,7 +1467,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 0, 1604637191) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1496,7 +1496,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 0, -161841165) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1525,7 +1525,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 0, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1554,7 +1554,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 1766586277, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1583,7 +1583,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 1892286936, 1409806732) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1612,7 +1612,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 1276626216, -1932579094) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1641,7 +1641,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, 13999783, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1670,7 +1670,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, -1323336347, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1699,7 +1699,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, -2047718751, 1377811608) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1728,7 +1728,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, -2115036281, -702183291) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1757,7 +1757,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, -1400426524, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1786,7 +1786,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, String, 0) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1815,7 +1815,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, String, 1212667917) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1844,7 +1844,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, String, -7107237) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @Test
@@ -1873,7 +1873,7 @@ public class MinWebTestSuiteTest {
         element = driver.findElement(By.id("computeButton"));
         element.click();
         String output = result.getText();
-        assertEquals("min(String, String, String) = Please enter integer values only!", output);
+        assertEquals("Please enter integer values only!", output);
     }
 
     @AfterClass
