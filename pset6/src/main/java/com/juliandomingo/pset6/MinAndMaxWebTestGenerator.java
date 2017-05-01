@@ -10,18 +10,19 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class MinWebTestGenerator {
-    public static final int NUMBER_OF_TESTS = 128;
-    public static final int INPUT_TYPES = 4;
+public class MinAndMaxWebTestGenerator {
+    public static final int NUMBER_OF_TESTS = 256;
+    public static final int INPUT_TYPES = 5;
     public static final int ZERO = 0;
-    public static final String NOT_AN_INTEGER = "Not an integer.";
+    public static final int MAX_OR_MIN = 1;
+    public static final int CLICK_OR_NOT_CLICK = 1;
 
     public static String currentWorkingDirectory = System.getProperty("user.dir"); 
     Random random = new Random(12345678);
     ArrayList<Combination> combinations = new ArrayList<Combination>();
 
     public static void main(String[] a) {
-        String suite = new MinWebTestGenerator().createTestSuite();
+        String suite = new MinAndMaxWebTestGenerator().createTestSuite();
         System.out.println(suite);
     }
 	
@@ -66,8 +67,11 @@ public class MinWebTestGenerator {
         StringBuilder sb = new StringBuilder();
         
         createCombinations(new Object[INPUT_TYPES],
-                           new Integer[]{INPUT_TYPES - 1, INPUT_TYPES - 1, INPUT_TYPES - 1, 1},
-                           0);                
+                           new Integer[]{INPUT_TYPES - 2, 
+                                         INPUT_TYPES - 2, 
+                                         INPUT_TYPES - 2, 
+                                         CLICK_OR_NOT_CLICK, 
+                                         MAX_OR_MIN}, 0);                
 
         for (int test = 0; test < NUMBER_OF_TESTS; test += 1) { 
             Combination possibility = combinations.get(test); 
@@ -81,7 +85,7 @@ public class MinWebTestGenerator {
             sb.append(tab(1) + "@Test\n");
             sb.append(tab(1) + "public void t" + Integer.toString(test) + "() {\n");
            
-            String minPath = "file://" + currentWorkingDirectory + "/min.html"; 
+            String minPath = "file://" + currentWorkingDirectory + "/minandmax.html"; 
             sb.append(tab(2) + "driver.get(\"" + minPath + "\");\n"); 
             
             sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
@@ -101,14 +105,19 @@ public class MinWebTestGenerator {
            
             sb.append(tab(2) + "WebElement result = driver.findElement(By.id(\"result\"));\n");
 
-            if ((Integer) possibility.combination[3] == 1) {
+            if (isComputeClicked(possibility)) { 
+                if (!isMaxTestCase(possibility)) { 
+                    sb.append(tab(2) + "WebElement min = driver.findElement(By.id(\"min\"));\n");
+                    sb.append(tab(2) + "min.click();\n");
+                }
+
                 sb.append(tab(2) + "element = driver.findElement(By.id(\"computeButton\"));\n");
                 sb.append(tab(2) + "element.click();\n");
             }
-
+            
             sb.append(tab(2) + "String output = result.getText();\n");
 
-            if ((Integer) possibility.combination[3] == 1) {
+            if (isComputeClicked(possibility)) { 
                 boolean illegalInput = x instanceof String || y instanceof String || z instanceof String;
                 String result = "";
 
@@ -119,14 +128,16 @@ public class MinWebTestGenerator {
                 }
                 else {
                     int minimum = Math.min(Math.min((Integer) x, (Integer) y), (Integer) z);
-                    result = Integer.toString(minimum);
-                
-                    sb.append(tab(2) + "assertEquals(\"min("
+                    int maximum = Math.max(Math.max((Integer) x, (Integer) y), (Integer) z);
+
+                    result = (isMaxTestCase(possibility)) ? Integer.toString(maximum) : Integer.toString(minimum);
+                    String assertion = (isMaxTestCase(possibility)) ? "max" : "min";                
+
+                    sb.append(tab(2) + "assertEquals(\"" + assertion + "(" 
                                      + stringRepresentation(x) + ", "
                                      + stringRepresentation(y) + ", "
                                      + stringRepresentation(z) + ") = " 
-                                     + result   
-                                     + "\", output);\n");
+                                     + result + "\", output);\n");
                 }
 
             }
@@ -137,6 +148,22 @@ public class MinWebTestGenerator {
         return sb.toString();            
     }
     
+    /**
+     * Determines if possibility is a max test case.
+     * @param possibility : The possbility to check.
+     */
+    public boolean isMaxTestCase(Combination possibility) {
+        return (Integer) possibility.combination[4] == 1;
+    } 
+
+    /**
+     * Determines if possibility clicks on the compute button.
+     * @param possibility : The possibility to check.
+     */
+    public boolean isComputeClicked(Combination possibility) {
+        return (Integer) possibility.combination[3] == 1;
+    }      
+
     /**
      * Opens the web browser before all test cases are executed.
      */
@@ -206,7 +233,7 @@ public class MinWebTestGenerator {
      * representational combination possibility array.
      */ 
     void generateInputValues(Combination possibility) {
-        for (int value = 0; value < possibility.combination.length - 1; value += 1) {
+        for (int value = 0; value < possibility.combination.length - 2; value += 1) {
             possibility.combination[value] = getValueMapping((Integer) possibility.combination[value]);
         }
     }
