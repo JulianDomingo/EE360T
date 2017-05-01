@@ -2,8 +2,7 @@
  * Julian Domingo : jad5348
  */
 
-// TODO: Change package before submitting.
-package com.juliandomingo.pset6;
+package pset6;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;

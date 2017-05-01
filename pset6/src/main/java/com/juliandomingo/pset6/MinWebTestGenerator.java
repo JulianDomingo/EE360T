@@ -16,7 +16,6 @@ public class MinWebTestGenerator {
     public static final int ZERO = 0;
     public static final String NOT_AN_INTEGER = "Not an integer.";
 
-    public static String currentWorkingDirectory = System.getProperty("user.dir"); 
     Random random = new Random(12345678);
     ArrayList<Combination> combinations = new ArrayList<Combination>();
 
@@ -81,8 +80,12 @@ public class MinWebTestGenerator {
             sb.append(tab(1) + "@Test\n");
             sb.append(tab(1) + "public void t" + Integer.toString(test) + "() {\n");
            
-            String minPath = "file://" + currentWorkingDirectory + "/min.html"; 
-            sb.append(tab(2) + "driver.get(\"" + minPath + "\");\n"); 
+            sb.append(tab(2) + "String currentWorkingDirectory = System.getProperty(\"user.dir\");\n");
+
+            sb.append(tab(2) + "String minPath = \"file://\"" 
+                             + "+ currentWorkingDirectory + \"/min.html\";\n"); 
+
+            sb.append(tab(2) + "driver.get(minPath);\n"); 
             
             sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
             sb.append(tab(2) + "element.sendKeys(\"" 

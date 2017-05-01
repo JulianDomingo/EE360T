@@ -2,26 +2,23 @@
  * Julian Domingo : jad5348
  */
 
-// TODO: Change package before submitting.
-package com.juliandomingo.pset6;
+package pset6;
 
 import java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class MinAndMaxWebTestGenerator {
-    public static final int NUMBER_OF_TESTS = 256;
-    public static final int INPUT_TYPES = 5;
+public class MinWebTestGenerator {
+    public static final int NUMBER_OF_TESTS = 128;
+    public static final int INPUT_TYPES = 4;
     public static final int ZERO = 0;
-    public static final int MAX_OR_MIN = 1;
-    public static final int CLICK_OR_NOT_CLICK = 1;
 
     Random random = new Random(12345678);
     ArrayList<Combination> combinations = new ArrayList<Combination>();
 
     public static void main(String[] a) {
-        String suite = new MinAndMaxWebTestGenerator().createTestSuite();
+        String suite = new MinWebTestGenerator().createTestSuite();
         System.out.println(suite);
     }
 	
@@ -54,7 +51,7 @@ public class MinAndMaxWebTestGenerator {
 
 	  String testsuite() {
         StringBuilder sb = new StringBuilder();
-        sb.append("public class MinAndMaxWebTestSuite {\n");
+        sb.append("public class MinWebTestSuite {\n");
             sb.append(openBrowser());
             sb.append(addTests());
             sb.append(closeBrowser()); 
@@ -66,11 +63,8 @@ public class MinAndMaxWebTestGenerator {
         StringBuilder sb = new StringBuilder();
         
         createCombinations(new Object[INPUT_TYPES],
-                           new Integer[]{INPUT_TYPES - 2, 
-                                         INPUT_TYPES - 2, 
-                                         INPUT_TYPES - 2, 
-                                         CLICK_OR_NOT_CLICK, 
-                                         MAX_OR_MIN}, 0);                
+                           new Integer[]{INPUT_TYPES - 1, INPUT_TYPES - 1, INPUT_TYPES - 1, 1},
+                           0);                
 
         for (int test = 0; test < NUMBER_OF_TESTS; test += 1) { 
             Combination possibility = combinations.get(test); 
@@ -86,10 +80,10 @@ public class MinAndMaxWebTestGenerator {
            
             sb.append(tab(2) + "String currentWorkingDirectory = System.getProperty(\"user.dir\");\n");
 
-            sb.append(tab(2) + "String minAndMaxPath = \"file://\"" 
-                             + "+ currentWorkingDirectory + \"/minandmax.html\";\n"); 
+            sb.append(tab(2) + "String minPath = \"file://\"" 
+                             + "+ currentWorkingDirectory + \"/min.html\";\n"); 
 
-            sb.append(tab(2) + "driver.get(minAndMaxPath);\n"); 
+            sb.append(tab(2) + "driver.get(minPath);\n"); 
             
             sb.append(tab(2) + "WebElement element = driver.findElement(By.id(\"x\"));\n");
             sb.append(tab(2) + "element.sendKeys(\"" 
@@ -108,19 +102,14 @@ public class MinAndMaxWebTestGenerator {
            
             sb.append(tab(2) + "WebElement result = driver.findElement(By.id(\"result\"));\n");
 
-            if (isComputeClicked(possibility)) { 
-                if (!isMaxTestCase(possibility)) { 
-                    sb.append(tab(2) + "WebElement min = driver.findElement(By.id(\"min\"));\n");
-                    sb.append(tab(2) + "min.click();\n");
-                }
-
+            if ((Integer) possibility.combination[3] == 1) {
                 sb.append(tab(2) + "element = driver.findElement(By.id(\"computeButton\"));\n");
                 sb.append(tab(2) + "element.click();\n");
             }
-            
+
             sb.append(tab(2) + "String output = result.getText();\n");
 
-            if (isComputeClicked(possibility)) { 
+            if ((Integer) possibility.combination[3] == 1) {
                 boolean illegalInput = x instanceof String || y instanceof String || z instanceof String;
                 String result = "";
 
@@ -131,16 +120,14 @@ public class MinAndMaxWebTestGenerator {
                 }
                 else {
                     int minimum = Math.min(Math.min((Integer) x, (Integer) y), (Integer) z);
-                    int maximum = Math.max(Math.max((Integer) x, (Integer) y), (Integer) z);
-
-                    result = (isMaxTestCase(possibility)) ? Integer.toString(maximum) : Integer.toString(minimum);
-                    String assertion = (isMaxTestCase(possibility)) ? "max" : "min";                
-
-                    sb.append(tab(2) + "assertEquals(\"" + assertion + "(" 
+                    result = Integer.toString(minimum);
+                
+                    sb.append(tab(2) + "assertEquals(\"min("
                                      + stringRepresentation(x) + ", "
                                      + stringRepresentation(y) + ", "
                                      + stringRepresentation(z) + ") = " 
-                                     + result + "\", output);\n");
+                                     + result   
+                                     + "\", output);\n");
                 }
 
             }
@@ -151,22 +138,6 @@ public class MinAndMaxWebTestGenerator {
         return sb.toString();            
     }
     
-    /**
-     * Determines if possibility is a max test case.
-     * @param possibility : The possbility to check.
-     */
-    public boolean isMaxTestCase(Combination possibility) {
-        return (Integer) possibility.combination[4] == 1;
-    } 
-
-    /**
-     * Determines if possibility clicks on the compute button.
-     * @param possibility : The possibility to check.
-     */
-    public boolean isComputeClicked(Combination possibility) {
-        return (Integer) possibility.combination[3] == 1;
-    }      
-
     /**
      * Opens the web browser before all test cases are executed.
      */
@@ -236,7 +207,7 @@ public class MinAndMaxWebTestGenerator {
      * representational combination possibility array.
      */ 
     void generateInputValues(Combination possibility) {
-        for (int value = 0; value < possibility.combination.length - 2; value += 1) {
+        for (int value = 0; value < possibility.combination.length - 1; value += 1) {
             possibility.combination[value] = getValueMapping((Integer) possibility.combination[value]);
         }
     }

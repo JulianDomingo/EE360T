@@ -1,4 +1,8 @@
-package com.juliandomingo.pset6;
+/**
+ * Julian Domingo : jad5348
+ */
+
+package pset6;
 
 import java.io.IOException;
 import static org.junit.Assert.*;
@@ -12,7 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class MinAndMaxWebTestSuiteTest {
+public class MinAndMaxWebTestSuite {
     static WebDriver driver;
 
     @BeforeClass

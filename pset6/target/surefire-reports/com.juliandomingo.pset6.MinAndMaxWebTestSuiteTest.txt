@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.juliandomingo.pset6.MinAndMaxWebTestSuiteTest
 -------------------------------------------------------------------------------
-Tests run: 256, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 41.614 sec
+Tests run: 256, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 41.231 sec
