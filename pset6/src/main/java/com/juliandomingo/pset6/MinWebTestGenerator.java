@@ -6,9 +6,9 @@
 package com.juliandomingo.pset6;
 
 import java.lang.StringBuilder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.ArrayList;
 
 public class MinWebTestGenerator {
     public static final int NUMBER_OF_TESTS = 128;
